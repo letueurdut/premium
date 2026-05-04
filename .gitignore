@@ -31,6 +31,16 @@ yarn-error.log*
 # vercel
 .vercel
 
+# db
+premium.db
+*.db
+
+# uploads
+public/uploads/
+
+# scripts locaux
+update-admin.ps1
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

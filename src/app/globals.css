@@ -2,26 +2,115 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --font-playfair: 'Playfair Display', serif;
+    --font-dm-sans:  'DM Sans', sans-serif;
   }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-dm-sans);
+    background-color: #0A0A0A;
+    color: #F5F5F5;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar       { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #141414; }
+  ::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #DC2626; }
+
+  ::selection { background: rgba(220,38,38,0.25); color: #F5F5F5; }
+  :focus-visible { outline: 1px solid rgba(220,38,38,0.6); outline-offset: 2px; }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .font-display { font-family: var(--font-playfair); }
+  .font-body    { font-family: var(--font-dm-sans); }
+
+  /* ── Glow effects ───────────── */
+  .glow-red {
+    box-shadow: 0 0 30px rgba(220,38,38,0.25), 0 0 60px rgba(220,38,38,0.08);
+  }
+  .glow-red-sm { box-shadow: 0 0 12px rgba(220,38,38,0.2); }
+  .text-glow-red { text-shadow: 0 0 20px rgba(220,38,38,0.45); }
+
+  /* ── Cards ──────────────────── */
+  .card {
+    @apply bg-roulette-card border border-roulette-border rounded-xl;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
+  .card-hover {
+    @apply card transition-all duration-300;
+  }
+  .card-hover:hover {
+    @apply border-red-900/40;
+    box-shadow: 0 0 0 1px rgba(220,38,38,0.1), 0 4px 12px rgba(0,0,0,0.4);
+    transform: translateY(-1px);
+  }
+
+  /* ── Shimmer skeleton ───────── */
+  .shimmer {
+    background: linear-gradient(90deg, #1A1A1A 25%, #2A2A2A 50%, #1A1A1A 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s infinite;
+  }
+
+  /* ── Task punishment ────────── */
+  .task-punishment {
+    @apply border-red-900/50;
+    box-shadow: inset 3px 0 0 #DC2626, 0 0 20px rgba(220,38,38,0.05);
+  }
+
+  /* ── Badges ─────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full
+           text-xs font-medium border;
+  }
+  .badge-neutral { @apply badge bg-roulette-dark text-roulette-muted border-roulette-border; }
+  .badge-red     { @apply badge bg-red-900/30 text-red-300 border-red-800; }
+  .badge-green   { @apply badge bg-emerald-900/30 text-emerald-300 border-emerald-800; }
+  .badge-yellow  { @apply badge bg-amber-900/30 text-amber-300 border-amber-800; }
+
+  /* ── Input / Textarea ───────── */
+  .input {
+    @apply w-full bg-roulette-dark border border-roulette-border rounded-lg
+           px-4 py-3 text-sm text-white placeholder:text-roulette-muted
+           transition-colors duration-150
+           focus:outline-none focus:ring-2 focus:ring-roulette-red/50 focus:border-transparent;
+  }
+
+  /* ── Nav item ───────────────── */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg
+           text-sm text-roulette-muted
+           hover:bg-roulette-card hover:text-white
+           transition-all duration-150 cursor-pointer;
+  }
+  .nav-item.active {
+    @apply bg-red-900/20 text-white border border-red-900/30;
+  }
+
+  /* ── Divider ────────────────── */
+  .divider { @apply w-full h-px bg-roulette-border; }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .animate-in     { animation: slideUp 0.4s ease-out forwards; }
+  .animate-fade   { animation: fadeIn 0.3s ease-out forwards; }
+  .btn-press:active { transform: scale(0.97); }
 }
+
+@keyframes shimmer    { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@keyframes fadeIn     { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes slideUp    { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes pulseGlow  { 0%,100% { box-shadow: 0 0 20px rgba(220,38,38,0.2); } 50% { box-shadow: 0 0 40px rgba(220,38,38,0.4); } }
