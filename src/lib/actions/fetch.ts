@@ -1,4 +1,7 @@
 'use server';
+import { db } from '@/lib/db';
+import { tasks, users, proofSubmissions } from '@/lib/db/schema';
+import { eq, desc, count } from 'drizzle-orm';
 import { getAllUsers } from '@/lib/queries/users';
 import { getAllTasks } from '@/lib/queries/tasks';
 import { getAllProofs } from '@/lib/queries/proofs';
@@ -10,10 +13,8 @@ export async function fetchTasks() { return getAllTasks(); }
 export async function fetchProofs() { return getAllProofs(); }
 export async function fetchOverdue() { return getOverdueTasks(); }
 export async function fetchRewards() { return getAllRewards(); }
+
 export async function fetchDashboardData() {
-  const { db } = await import('@/lib/db');
-  const { tasks, users, proofSubmissions } = await import('@/lib/db/schema');
-  const { eq, desc, count } = await import('drizzle-orm');
   const [stats, pending, overdue, proofs, userCount, recentTasks] = await Promise.all([
     db.select({ total: count() }).from(tasks),
     db.select({ total: count() }).from(tasks).where(eq(tasks.status, 'pending')),
