@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { fetchUsers } from '@/lib/actions/fetch';
 import { createTask } from '@/lib/actions/tasks';
 import { Card } from '@/components/ui/Card';
@@ -14,14 +14,15 @@ interface DbUser { id: string; username: string }
 
 export default function CreateTaskPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [users, setUsers] = useState<DbUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState(searchParams.get('title') || '');
+  const [description, setDescription] = useState(searchParams.get('description') || '');
   const [selectedUser, setSelectedUser] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [taskType, setTaskType] = useState<'regular' | 'punishment'>('regular');
+  const [taskType, setTaskType] = useState<'regular' | 'punishment'>((searchParams.get('type') as 'regular' | 'punishment') || 'regular');
 
   useEffect(() => { fetchUsers().then(u => { setUsers(u as DbUser[]); if (u.length > 0) setSelectedUser((u as DbUser[])[0].id); }); }, []);
 

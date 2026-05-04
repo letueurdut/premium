@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, PlusCircle, CheckCircle, AlertTriangle, Gift } from "lucide-react";
+import { LayoutDashboard, Users, PlusCircle, BookOpen, CheckCircle, AlertTriangle, Gift } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -11,6 +11,7 @@ export function Sidebar() {
   const items = isAdmin ? [
     { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/users", label: "Utilisateurs", icon: Users },
+    { href: "/admin/catalog", label: "Catalogue", icon: BookOpen },
     { href: "/admin/create-task", label: "Créer une tâche", icon: PlusCircle },
     { href: "/admin/proofs", label: "Preuves", icon: CheckCircle },
     { href: "/admin/overdue", label: "Retards", icon: AlertTriangle },
