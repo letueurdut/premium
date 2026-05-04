@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, PlusCircle, BookOpen, CheckCircle, AlertTriangle, Gift } from "lucide-react";
+import { LayoutDashboard, Users, PlusCircle, BookOpen, CheckCircle, AlertTriangle, Gift, MessageCircle } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -15,6 +15,7 @@ export function Sidebar() {
     { href: "/admin/create-task", label: "Créer une tâche", icon: PlusCircle },
     { href: "/admin/proofs", label: "Preuves", icon: CheckCircle },
     { href: "/admin/overdue", label: "Retards", icon: AlertTriangle },
+    { href: "/admin/chat", label: "Chat", icon: MessageCircle },
     { href: "/admin/rewards", label: "Vault", icon: Gift },
   ] : [
     { href: "/user/dashboard", label: "Dashboard", icon: LayoutDashboard },
