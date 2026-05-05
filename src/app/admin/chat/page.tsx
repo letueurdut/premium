@@ -19,14 +19,14 @@ export default function AdminChatPage() {
   const [adminId, setAdminId] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { fetchUsers().then(u => setUsers(u as User[])); }, []);
+  useEffect(() => { fetchUsers().then(u => setUsers((u || []) as User[])).catch(() => {}); }, []);
 
   useEffect(() => {
     if (!selectedUser) return;
     const load = async () => {
       const msgs = await getMessages(selectedUser.id) as Message[];
-      setMessages(msgs);
-      if (msgs.length > 0) setAdminId(msgs[0].senderId === selectedUser.id ? msgs[0].receiverId : msgs[0].senderId);
+      setMessages(msgs || []);
+      if (msgs && msgs.length > 0) setAdminId(msgs[0].senderId === selectedUser.id ? msgs[0].receiverId : msgs[0].senderId);
     };
     load();
     const interval = setInterval(load, 2000);

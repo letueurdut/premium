@@ -25,7 +25,7 @@ export default function ChatPage() {
   useEffect(() => {
     if (!session?.id) return;
     const load = async () => {
-      const msgs = await getMessages(session.id) as Message[];
+      const msgs = (await getMessages(session.id) || []) as Message[];
       if (msgs.length > 0) setAdminId(msgs[0].senderId === session.id ? msgs[0].receiverId : msgs[0].senderId);
       setMessages(msgs);
     };
